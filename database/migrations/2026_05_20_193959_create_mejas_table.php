@@ -8,18 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('menus', function (Blueprint $table) {
+        Schema::create('mejas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_menu');
-            $table->integer('harga');
-            $table->text('deskripsi')->nullable();
-            $table->boolean('is_available')->default(true);
+            $table->string('nomor_meja');
+            $table->enum('status', ['kosong', 'digunakan'])->default('kosong');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists('mejas');
     }
 };
