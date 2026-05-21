@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasbor Owner - Kopi Nuri</title>
+    <title>Dashboard Owner - Kopi Nuri</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 font-sans antialiased text-gray-900">
@@ -14,10 +14,10 @@
                 <h1 class="text-2xl font-bold tracking-wider text-amber-500">KOPI NURI</h1>
             </div>
             <nav class="flex-1 px-4 py-6 space-y-3">
-                <a href="#" class="block px-4 py-2 bg-amber-500 text-slate-900 font-semibold rounded-lg">Beranda</a>
-                <a href="#" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Kelola Menu</a>
-                <a href="#" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Laporan Keuangan</a>
-                <a href="#" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Manajemen Akun</a>
+                <a href="{{ route('owner.beranda') }}" class="block px-4 py-2 bg-amber-500 text-slate-900 font-semibold rounded-lg">Beranda</a>
+                <a href="{{ route('owner.menu.index') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Kelola Menu</a>
+                <a href="{{ route('owner.laporan') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Laporan Keuangan</a>
+                <a href="{{ route('owner.akun.index') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Manajemen Akun</a>
             </nav>
             <div class="p-4 border-t border-slate-700">
                 <form method="POST" action="{{ route('logout') }}">
@@ -32,7 +32,7 @@
         <main class="flex-1 flex flex-col">
             
             <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8">
-                <h2 class="text-xl font-semibold text-gray-700">Dasbor Owner</h2>
+                <h2 class="text-xl font-semibold text-gray-700">Dashboard Owner</h2>
                 <div class="flex items-center space-x-4">
                     <span class="text-sm font-medium text-gray-500">Halo, {{ Auth::user()->name }}</span>
                     <div class="h-8 w-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold">
@@ -47,7 +47,7 @@
                     <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-emerald-500 flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500 font-medium mb-1">Total Pendapatan Harian</p>
-                            <p class="text-3xl font-bold text-gray-800">Rp 0</p>
+                            <p class="text-3xl font-bold text-gray-800">Rp {{ number_format($pendapatanHarian, 0, ',', '.') }}</p>
                         </div>
                         <div class="p-3 bg-emerald-100 text-emerald-600 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,7 +59,7 @@
                     <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-indigo-500 flex justify-between items-center">
                         <div>
                             <p class="text-sm text-gray-500 font-medium mb-1">Total Pendapatan Bulanan</p>
-                            <p class="text-3xl font-bold text-gray-800">Rp 0</p>
+                            <p class="text-3xl font-bold text-gray-800">Rp {{ number_format($pendapatanBulanan, 0, ',', '.') }}</p>
                         </div>
                         <div class="p-3 bg-indigo-100 text-indigo-600 rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
