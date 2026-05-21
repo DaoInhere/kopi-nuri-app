@@ -13,6 +13,7 @@ class UserSeeder extends Seeder
         // 1. Membuat Akun Kasir
         User::create([
             'name' => 'Akun Kasir',
+            'username' => 'kasir',
             'email' => 'kasir@kopinuri.com',
             'password' => Hash::make('password123'), // Password disamakan agar mudah diingat
             'role' => 'kasir',
@@ -21,6 +22,7 @@ class UserSeeder extends Seeder
         // 2. Membuat Akun Owner
         User::create([
             'name' => 'Akun Owner',
+            'username' => 'owner',
             'email' => 'owner@kopinuri.com',
             'password' => Hash::make('password123'),
             'role' => 'owner',
