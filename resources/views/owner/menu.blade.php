@@ -13,6 +13,7 @@
             <div class="h-16 flex items-center justify-center border-b border-slate-700">
                 <h1 class="text-2xl font-bold tracking-wider text-amber-500">KOPI NURI</h1>
             </div>
+            {{-- Navigasi --}}
             <nav class="flex-1 px-4 py-6 space-y-3">
                 <a href="{{ route('owner.beranda') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Beranda</a>
                 <a href="{{ route('owner.menu.index') }}" class="block px-4 py-2 bg-amber-500 text-slate-900 font-semibold rounded-lg">Kelola Menu</a>
