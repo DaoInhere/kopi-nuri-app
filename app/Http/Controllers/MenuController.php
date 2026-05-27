@@ -10,21 +10,29 @@ class MenuController extends Controller
     // Fungsi untuk mengambil dan menampilkan semua menu
     public function index()
     {
-        // Mengambil seluruh data yang ada di tabel 'menus'
-        $menus = Menu::all();
-
-        // KARENA HALAMAN BLADE-NYA BELUM DIBUAT OLEH TIM FRONTEND:
-        // Sementara kita kembalikan datanya dalam bentuk JSON 
-        // agar kamu bisa melihat hasilnya langsung di browser.
-        return response()->json([
-            'status' => 'success',
-            'pesan' => 'Data menu berhasil diambil!',
-            'data' => $menus
-        ]);
+        $menus = Menu::orderBy('id', 'desc')->get();
+        return view('kasir.menu', compact('menus'));
         
         /* Nanti, kalau Jazy dan Farsya sudah selesai membuat file tampilan 'menu.blade.php', 
         kamu tinggal mengganti kode return di atas menjadi:
         return view('menu', compact('menus'));
         */
+    }
+
+    public function toggleAvailability($id)
+    {
+        try {
+            $menu = Menu::findOrFail($id);
+
+            $menu->update([
+                'is_available' => !$menu->is_available
+            ]);
+
+            return back()->with('success', 'Status menu berhasil diubah.');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'Status menu gagal diubah.');
+        }
     }
 }

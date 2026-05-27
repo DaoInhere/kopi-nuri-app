@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\OwnerController;
-use App\Http\Controllers\OwnerMenuController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OwnerAkunController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OwnerMenuController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 // Rute untuk halaman daftar menu (Bisa diakses pelanggan tanpa harus login)
@@ -28,6 +29,18 @@ Route::middleware('auth')->group(function () {
 // Rute Khusus Kasir
 Route::middleware(['auth', 'role:kasir'])->group(function () {
     Route::get('/kasir/beranda', [KasirController::class, 'index'])->name('kasir.beranda');
+    Route::get('/kasir/menu', [MenuController::class, 'index'])->name('kasir.menu');
+    
+    Route::patch('/menu/{menu}/toggle-availability', [MenuController::class, 'toggleAvailability'])
+    ->name('menu.toggleAvailability');
+    
+    Route::get('/kasir/riwayatPesanan', [PesananController::class, 'index'])->name('kasir.riwayat.pesanan');
+    
+    Route::get('/kasir/pesanan/create', [PesananController::class, 'create'])->name('kasir.pesanan.create');
+    Route::post('/kasir/pesanan', [PesananController::class, 'store'])->name('kasir.pesanan.store');
+    Route::get('/kasir/pesanan/{order}', [PesananController::class, 'show'])->name('kasir.pesanan.show');    
+    Route::patch('/kasir/pesanan/{order}/selesai', [PesananController::class, 'markSelesai'])->name('kasir.pesanan.selesai');
+    Route::patch('/kasir/pesanan/{order}/batal', [PesananController::class, 'markBatal'])->name('kasir.pesanan.batal');
 });
 
 // Rute Khusus Owner

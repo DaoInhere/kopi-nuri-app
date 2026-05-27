@@ -14,10 +14,10 @@
                 <h1 class="text-2xl font-bold tracking-wider text-amber-500">KOPI NURI</h1>
             </div>
             <nav class="flex-1 px-4 py-6 space-y-3">
-                <a href="#" class="block px-4 py-2 bg-amber-500 text-slate-900 font-semibold rounded-lg">Beranda</a>
-                <a href="#" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Buat Pesanan</a>
-                <a href="#" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Daftar Menu</a>
-                <a href="#" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Riwayat Pesanan</a>
+                <a href="{{ route('kasir.beranda') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Beranda</a>
+                <a href="{{ route('kasir.pesanan.create') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Buat Pesanan</a>
+                <a href="{{ route('kasir.menu') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Daftar Menu</a>
+                <a href="{{ route('kasir.riwayat.pesanan') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Riwayat Transaksi</a>
             </nav>
             <div class="p-4 border-t border-slate-700">
                 <form method="POST" action="{{ route('logout') }}">

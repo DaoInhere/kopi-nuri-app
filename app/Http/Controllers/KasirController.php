@@ -12,7 +12,13 @@ class KasirController extends Controller
     public function index()
     {
         // Mengambil semua data meja
-        $mejas = Meja::all();
+        $mejas = Meja::orderByRaw("
+            CASE 
+                WHEN status = 'kosong' THEN 0
+                WHEN status = 'terisi' THEN 1
+                ELSE 2
+            END
+        ")->orderBy('nomor_meja')->get();
         
         // Menghitung meja kosong dan digunakan
         $mejaKosong = Meja::where('status', 'kosong')->count();
