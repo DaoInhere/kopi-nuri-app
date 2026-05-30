@@ -39,6 +39,7 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
     Route::get('/kasir/pesanan/create', [PesananController::class, 'create'])->name('kasir.pesanan.create');
     Route::post('/kasir/pesanan', [PesananController::class, 'store'])->name('kasir.pesanan.store');
     Route::get('/kasir/pesanan/{order}', [PesananController::class, 'show'])->name('kasir.pesanan.show');    
+    Route::patch('/kasir/pesanan/{order}/lunas', [PesananController::class, 'markLunas'])->name('kasir.pesanan.lunas');
     Route::patch('/kasir/pesanan/{order}/selesai', [PesananController::class, 'markSelesai'])->name('kasir.pesanan.selesai');
     Route::patch('/kasir/pesanan/{order}/batal', [PesananController::class, 'markBatal'])->name('kasir.pesanan.batal');
 });
@@ -46,7 +47,9 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 // Rute Khusus Owner
 Route::middleware(['auth', 'role:owner'])->group(function () {
     Route::get('/owner/beranda', [OwnerController::class, 'index'])->name('owner.beranda');
-    Route::get('/owner/laporan', [OwnerController::class, 'laporan'])->name('owner.laporan'); // <-- Tambahkan baris ini
+    
+    Route::get('/owner/laporan', [OwnerController::class, 'laporan'])->name('owner.laporan');
+    Route::get('/owner/laporan/cetak', [OwnerController::class, 'cetakLaporan'])->name('owner.laporan.cetak'); // <-- Ini rute baru untuk cetak PDF
     
     // Rute Kelola Menu CRUD
     Route::get('/owner/menu', [OwnerMenuController::class, 'index'])->name('owner.menu.index');

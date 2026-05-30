@@ -134,6 +134,10 @@
                                                 <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-amber-50 text-amber-800 border border-amber-200">
                                                     Proses
                                                 </span>
+                                            @elseif($order->status_pesanan == 'lunas')
+                                                <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                                                    Lunas
+                                                </span>
                                             @elseif($order->status_pesanan == 'selesai')
                                                 <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                                                     Selesai
@@ -151,12 +155,13 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div class="flex items-center justify-center gap-2">
+                                                
                                                 @if ($order->status_pesanan === 'proses')
-                                                    <form action="{{ route('kasir.pesanan.selesai', $order->id) }}" method="POST" onsubmit="return confirm('Ubah status pesanan menjadi selesai?')">
+                                                    <form action="{{ route('kasir.pesanan.lunas', $order->id) }}" method="POST" onsubmit="return confirm('Ubah status pesanan menjadi lunas?')">
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit" class="px-2.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-lg shadow-sm transition duration-150">
-                                                            Selesai Bayar
+                                                            Sudah Dibayar
                                                         </button>
                                                     </form>
                                                     
@@ -167,12 +172,22 @@
                                                             Batalkan
                                                         </button>
                                                     </form>
+
+                                                @elseif ($order->status_pesanan === 'lunas')
+                                                    <form action="{{ route('kasir.pesanan.selesai', $order->id) }}" method="POST" onsubmit="return confirm('Ubah status pesanan menjadi selesai dan meja pesanan dikosongkan?')">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg shadow-sm transition duration-150">
+                                                            Selesai
+                                                        </button>
+                                                    </form>
                                                 @endif
                                                 
                                                 <a href="{{ route('kasir.pesanan.show', $order->id) }}"
                                                    class="px-2.5 py-1.5 bg-stone-100 hover:bg-nuriArmy hover:text-white text-nuriDark border border-stone-200 text-xs font-bold rounded-lg text-center transition duration-150 shadow-sm">
                                                     Lihat Struk
                                                 </a>
+
                                             </div>
                                         </td>
                                     </tr>
