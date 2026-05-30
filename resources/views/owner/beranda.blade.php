@@ -126,14 +126,81 @@
 
                 {{-- Chart Area --}}
                 <div class="rounded-2xl shadow-sm p-6" style="background-color: #ffffff;">
-                    <h3 class="brand-font text-lg font-bold mb-4" style="color: #1a2010;">Grafik Penjualan Terbaru</h3>
-                    <div class="h-64 border-2 border-dashed rounded-xl flex items-center justify-center" style="border-color: #d6cdb8; color: #a89880;">
-                        Area ini nantinya bisa diisi dengan tabel laporan pesanan atau grafik dari Chart.js
+                    <h3 class="brand-font text-lg font-bold mb-4" style="color: #1a2010;">Grafik Penjualan Terbaru (7 Hari Terakhir)</h3>
+                    
+                    {{-- Container Canvas untuk Chart.js --}}
+                    <div style="position: relative; height: 350px; width: 100%;">
+                        <canvas id="grafikPendapatan"></canvas>
                     </div>
                 </div>
 
             </div>
         </main>
     </div>
+
+    {{-- Import CDN Chart.js --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {{-- Script Inisialisasi Grafik --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('grafikPendapatan').getContext('2d');
+            
+            // Menangkap data dari PHP ke JavaScript
+            const labelGrafik = {!! json_encode($labelGrafik ?? []) !!};
+            const dataGrafik = {!! json_encode($dataGrafik ?? []) !!};
+
+            new Chart(ctx, {
+                type: 'line', // Grafik garis
+                data: {
+                    labels: labelGrafik,
+                    datasets: [{
+                        label: 'Total Pendapatan',
+                        data: dataGrafik,
+                        borderColor: '#4a6741', // Warna hijau sage
+                        backgroundColor: 'rgba(74, 103, 65, 0.1)', // Warna hijau transparan
+                        borderWidth: 2,
+                        pointBackgroundColor: '#c8a84b', // Warna emas
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        fill: true,
+                        tension: 0.3 // Garis melengkung
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            suggestedMax: 1000000,
+                            ticks: {
+                                precision: 0, 
+                                callback: function(value) {
+                                    return 'Rp ' + new Intl.NumberFormat('id-ID').format(value);
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += 'Rp ' + new Intl.NumberFormat('id-ID').format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -47,7 +47,9 @@ Route::middleware(['auth', 'role:kasir'])->group(function () {
 // Rute Khusus Owner
 Route::middleware(['auth', 'role:owner'])->group(function () {
     Route::get('/owner/beranda', [OwnerController::class, 'index'])->name('owner.beranda');
-    Route::get('/owner/laporan', [OwnerController::class, 'laporan'])->name('owner.laporan'); // <-- Tambahkan baris ini
+    
+    Route::get('/owner/laporan', [OwnerController::class, 'laporan'])->name('owner.laporan');
+    Route::get('/owner/laporan/cetak', [OwnerController::class, 'cetakLaporan'])->name('owner.laporan.cetak'); // <-- Ini rute baru untuk cetak PDF
     
     // Rute Kelola Menu CRUD
     Route::get('/owner/menu', [OwnerMenuController::class, 'index'])->name('owner.menu.index');
