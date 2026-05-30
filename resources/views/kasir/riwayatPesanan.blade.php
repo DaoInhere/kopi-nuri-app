@@ -107,6 +107,10 @@
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                                     Proses
                                                 </span>
+                                            @elseif($order->status_pesanan == 'lunas')
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                    Lunas
+                                                </span>
                                             @elseif($order->status_pesanan == 'selesai')
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                                     Selesai
@@ -124,7 +128,7 @@
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             @if ($order->status_pesanan === 'proses')
-                                                <form action="{{ route('kasir.pesanan.selesai', $order->id) }}" method="POST" onsubmit="return confirm('Ubah status pesanan menjadi selesai?')">
+                                                <form action="{{ route('kasir.pesanan.lunas', $order->id) }}" method="POST" onsubmit="return confirm('Ubah status pesanan menjadi lunas?')">
                                                     @csrf
                                                     @method('PATCH')
 
@@ -139,6 +143,20 @@
 
                                                     <button type="submit" class="text-red-600 hover:text-red-900">
                                                         > Batalkan
+                                                    </button>
+                                                </form>
+                                                <a href="{{ route('kasir.pesanan.show', $order->id) }}"
+                                                class="text-blue-600 hover:text-blue-900">
+                                                    > Detail
+                                                </a>
+                                            @elseif ($order->status_pesanan === 'lunas')
+                                                <form action="{{ route('kasir.pesanan.selesai', $order->id) }}" method="POST" onsubmit="return confirm('Ubah status pesanan menjadi selesai dan meja pesanan dikosongkan?')">
+                                                    @csrf
+                                                    @method('PATCH')
+
+                                                    <button type="submit"
+                                                        class="text-green-600 hover:text-green-900">
+                                                        > Selesai
                                                     </button>
                                                 </form>
                                                 <a href="{{ route('kasir.pesanan.show', $order->id) }}"

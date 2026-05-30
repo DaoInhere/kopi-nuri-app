@@ -13,7 +13,7 @@ return new class extends Migration
             $table->foreignId('kasir_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('meja_id')->constrained('mejas')->onDelete('cascade');
             $table->integer('total_harga')->default(0);
-            $table->enum('status_pesanan', ['proses', 'selesai', 'batal'])->default('proses');
+            $table->enum('status_pesanan', ['proses', 'lunas','selesai', 'batal'])->default('proses');
             $table->timestamps();
         });
     }

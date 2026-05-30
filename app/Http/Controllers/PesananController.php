@@ -113,6 +113,16 @@ class PesananController extends Controller
         return view('kasir.strukpesanan', compact('order'));
     }
 
+    public function markLunas($order)
+    {
+        $order = Order::findOrFail($order);
+
+        $order->status_pesanan = 'lunas';
+        $order->save();
+
+        return redirect()->back()->with('success', 'Pesanan sudah dibayar');
+    }
+    
     public function markSelesai($order)
     {
         $order = Order::findOrFail($order);
@@ -128,7 +138,7 @@ class PesananController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Pesanan sudah selesai');
+        return redirect()->back()->with('success', 'Pesanan sudah selesai dan meja dikosongkan');
     }
 
     public function markBatal($order)
