@@ -90,7 +90,7 @@
                         {{ Auth::user()->name }}
                     </p>
                     <p class="text-xs text-stone-400">
-                        Kasir Aktif
+                        Kasir
                     </p>
                 </div>
                 <div class="h-9 w-9 bg-nuriDark rounded-full flex items-center justify-center text-nuriGold font-bold shadow-sm border border-nuriForest">
@@ -117,9 +117,6 @@
                                 Transaksi berhasil tercatat
                             </p>
                         </div>
-                        <span class="px-2 py-0.5 bg-white/10 text-[10px] uppercase font-bold rounded-md tracking-wider">
-                            Live
-                        </span>
                     </div>
                 </div>
 
@@ -136,9 +133,6 @@
                                 Siap menerima pelanggan baru
                             </p>
                         </div>
-                        <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] uppercase font-bold rounded-md tracking-wider">
-                            Tersedia
-                        </span>
                     </div>
                 </div>
 
@@ -155,9 +149,6 @@
                                 Sedang dalam pelayanan kuliner
                             </p>
                         </div>
-                        <span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 text-[10px] uppercase font-bold rounded-md tracking-wider">
-                            Terisi
-                        </span>
                     </div>
                 </div>
 
@@ -171,9 +162,6 @@
                         <p class="text-xs text-stone-500 mt-0.5">
                             Klik kartu meja di bawah ini untuk langsung memproses dan mengelola pesanan pelanggan.
                         </p>
-                    </div>
-                    <div class="bg-amber-50 text-amber-800 border border-amber-200 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">
-                        Live Monitor
                     </div>
                 </div>
 

@@ -10,11 +10,11 @@
             theme: {
                 extend: {
                     colors: {
-                        nuriDark: '#192215',    /* Warna background ekstra gelap sidebar */
-                        nuriCream: '#F4EFE6',   /* Warna krem lembut background utama */
-                        nuriGold: '#E4C374',    /* Warna emas logo KopiNuri */
-                        nuriArmy: '#4B6244',    /* Warna hijau army (active menu & card) */
-                        nuriForest: '#16360E'   /* Warna hijau botol pekat (button & text) */
+                        nuriDark: '#0A1603',    /* Warna background ekstra gelap sidebar */
+                        nuriCream: '#F5F2EC',   /* Warna krem lembut background utama */
+                        nuriGold: '#D8A44C',    /* Warna emas logo KopiNuri */
+                        nuriArmy: '#547548',    /* Warna hijau army utama */
+                        nuriForest: '#1D2A15'   /* Warna hijau botol pekat untuk pembatas/hover */
                     }
                 }
             }
@@ -31,25 +31,36 @@
                 </h1>
             </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-2">
-                <a href="{{ route('kasir.beranda') }}" class="block px-4 py-2.5 hover:bg-nuriArmy hover:text-white rounded-lg transition duration-200">
-                    Beranda
+            <nav class="flex-1 p-4 space-y-2">
+
+                <a href="{{ route('kasir.beranda') }}"
+                    class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
+                    Dashboard
                 </a>
-                <a href="{{ route('kasir.pesanan.create') }}" class="block px-4 py-2.5 bg-nuriArmy text-white font-medium rounded-lg transition duration-200">
+
+                <a href="{{ route('kasir.pesanan.create') }}"
+                    class="block px-4 py-2.5 bg-nuriArmy text-white font-medium rounded-lg transition duration-200 shadow-sm">
                     Buat Pesanan
                 </a>
-                <a href="{{ route('kasir.menu') }}" class="block px-4 py-2.5 hover:bg-nuriArmy hover:text-white rounded-lg transition duration-200">
+
+                <a href="{{ route('kasir.menu') }}"
+                    class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
                     Daftar Menu
                 </a>
-                <a href="{{ route('kasir.riwayat.pesanan') }}" class="block px-4 py-2.5 hover:bg-nuriArmy hover:text-white rounded-lg transition duration-200">
+
+                <a href="{{ route('kasir.riwayat.pesanan') }}"
+                    class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
                     Riwayat Transaksi
                 </a>
+
             </nav>
 
-            <div class="p-4 border-t border-[#263122]">
+            <div class="p-4 border-t border-nuriForest">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full text-left px-4 py-2.5 text-red-400 hover:bg-[#263122] rounded-lg transition duration-200">
+                    <button
+                        type="submit"
+                        class="w-full py-2.5 rounded-lg bg-[#8B2D2D] hover:bg-[#742222] text-white text-sm transition duration-200 font-semibold text-center shadow-sm">
                         Logout
                     </button>
                 </form>
@@ -62,12 +73,19 @@
                     <h2 class="text-3xl font-bold text-nuriDark" style="font-family: serif;">Buat Pesanan Baru</h2>
                     <p class="text-xs text-stone-500 mt-0.5">Dashboard Kasir / Tambah Order</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <span class="text-sm font-medium text-stone-700">Halo, <strong class="text-nuriArmy">{{ Auth::user()->name }}</strong></span>
-                    <div class="h-9 w-9 bg-nuriForest rounded-full flex items-center justify-center text-nuriGold font-bold shadow-sm">
-                        {{ Auth::user() ? strtoupper(substr(Auth::user()->name, 0, 1)) : 'K' }}
-                    </div>
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <p class="text-sm font-bold text-stone-900">
+                        {{ Auth::user()->name }}
+                    </p>
+                    <p class="text-xs text-stone-400">
+                        Kasir
+                    </p>
                 </div>
+                <div class="h-9 w-9 bg-nuriDark rounded-full flex items-center justify-center text-nuriGold font-bold shadow-sm border border-nuriForest">
+                    {{ Auth::user() ? strtoupper(substr(Auth::user()->name, 0, 1)) : 'K' }}
+                </div>
+            </div>
             </header>
 
             <div class="px-8 pb-8 flex-1 overflow-y-auto">
@@ -104,6 +122,18 @@
                     <input type="hidden" name="kasir_id" value="{{ auth()->id() }}">
                     <input type="hidden" name="status_pesanan" value="proses">
 
+                    <div class="flex justify-end space-x-3 pt-2">
+                        <a href="{{ route('kasir.beranda') }}"
+                           class="px-6 py-2.5 bg-white border border-stone-300 text-stone-700 font-semibold rounded-xl hover:bg-stone-50 transition duration-200">
+                            Batal
+                        </a>
+
+                        <button type="submit"
+                                class="px-8 py-2.5 bg-nuriForest text-nuriGold font-bold rounded-xl hover:opacity-90 shadow-md transition duration-200">
+                            Simpan Order
+                        </button>
+                    </div>
+                    
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200/60 border-t-4 border-t-nuriArmy">
                         <h3 class="text-lg font-bold text-nuriDark mb-4" style="font-family: serif;">Informasi Meja</h3>
 
@@ -135,9 +165,22 @@
                             </p>
                         </div>
 
+                        <div class="mb-4">
+                            <input
+                                type="text"
+                                id="menuSearch"
+                                placeholder="Cari menu..."
+                                class="w-full border border-stone-300 rounded-lg px-4 py-2 focus:border-nuriArmy focus:ring-nuriArmy"
+                            >
+                        </div>
+
                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                             @foreach($menus as $menu)
-                                <div class="border border-stone-100 rounded-xl p-4 bg-stone-50 hover:border-nuriArmy hover:bg-white hover:shadow-md transition duration-200">
+                                <div
+                                    class="menu-card border border-stone-100 rounded-xl p-4 bg-stone-50 hover:border-nuriArmy hover:bg-white hover:shadow-md transition duration-200"
+                                    data-name="{{ strtolower($menu->nama_menu) }}"
+                                    data-desc="{{ strtolower($menu->deskripsi) }}"
+                                >
                                     <div class="flex items-start justify-between gap-4 mb-3">
                                         <div>
                                             <h4 class="font-bold text-nuriDark">{{ $menu->nama_menu }}</h4>
@@ -192,5 +235,27 @@
             </div>
         </main>
     </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const searchInput = document.getElementById('menuSearch');
+
+    searchInput.addEventListener('input', function () {
+        const keyword = this.value.toLowerCase().trim();
+
+        document.querySelectorAll('.menu-card').forEach(card => {
+            const name = card.dataset.name;
+            const desc = card.dataset.desc;
+
+            if (name.includes(keyword) || desc.includes(keyword)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>

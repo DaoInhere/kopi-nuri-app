@@ -10,11 +10,11 @@
             theme: {
                 extend: {
                     colors: {
-                        nuriDark: '#192215',    /* Warna background ekstra gelap sidebar */
-                        nuriCream: '#F4EFE6',   /* Warna krem lembut background utama */
-                        nuriGold: '#E4C374',    /* Warna emas logo KopiNuri */
-                        nuriArmy: '#4B6244',    /* Warna hijau army (active menu & card) */
-                        nuriForest: '#16360E'   /* Warna hijau botol pekat (button & text) */
+                        nuriDark: '#0A1603',    /* Warna background ekstra gelap sidebar */
+                        nuriCream: '#F5F2EC',   /* Warna krem lembut background utama */
+                        nuriGold: '#D8A44C',    /* Warna emas logo KopiNuri */
+                        nuriArmy: '#547548',    /* Warna hijau army utama */
+                        nuriForest: '#1D2A15'   /* Warna hijau botol pekat untuk pembatas/hover */
                     }
                 }
             }
@@ -31,25 +31,36 @@
                 </h1>
             </div>
 
-            <nav class="flex-1 px-4 py-6 space-y-2">
-                <a href="{{ route('kasir.beranda') }}" class="block px-4 py-2.5 hover:bg-nuriArmy hover:text-white rounded-lg transition duration-200">
-                    Beranda
+            <nav class="flex-1 p-4 space-y-2">
+
+                <a href="{{ route('kasir.beranda') }}"
+                    class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
+                    Dashboard
                 </a>
-                <a href="{{ route('kasir.pesanan.create') }}" class="block px-4 py-2.5 hover:bg-nuriArmy hover:text-white rounded-lg transition duration-200">
+
+                <a href="{{ route('kasir.pesanan.create') }}"
+                    class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
                     Buat Pesanan
                 </a>
-                <a href="{{ route('kasir.menu') }}" class="block px-4 py-2.5 hover:bg-nuriArmy hover:text-white rounded-lg transition duration-200">
+
+                <a href="{{ route('kasir.menu') }}"
+                    class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
                     Daftar Menu
                 </a>
-                <a href="{{ route('kasir.riwayat.pesanan') }}" class="block px-4 py-2.5 bg-nuriArmy text-white font-medium rounded-lg transition duration-200">
+
+                <a href="{{ route('kasir.riwayat.pesanan') }}"
+                    class="block px-4 py-2.5 bg-nuriArmy text-white font-medium rounded-lg transition duration-200 shadow-sm">
                     Riwayat Transaksi
                 </a>
+
             </nav>
 
-            <div class="p-4 border-t border-[#263122]">
+            <div class="p-4 border-t border-nuriForest">
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="w-full text-left px-4 py-2.5 text-red-400 hover:bg-[#263122] rounded-lg transition duration-200">
+                    <button
+                        type="submit"
+                        class="w-full py-2.5 rounded-lg bg-[#8B2D2D] hover:bg-[#742222] text-white text-sm transition duration-200 font-semibold text-center shadow-sm">
                         Logout
                     </button>
                 </form>
@@ -63,8 +74,15 @@
                     <p class="text-xs text-stone-500 mt-0.5">Dashboard Kasir / Pemantauan Log Pesanan</p>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="text-sm font-medium text-stone-700">Halo, <strong class="text-nuriArmy">{{ Auth::user()->name }}</strong></span>
-                    <div class="h-9 w-9 bg-nuriForest rounded-full flex items-center justify-center text-nuriGold font-bold shadow-sm">
+                    <div class="text-right">
+                        <p class="text-sm font-bold text-stone-900">
+                            {{ Auth::user()->name }}
+                        </p>
+                        <p class="text-xs text-stone-400">
+                            Kasir
+                        </p>
+                    </div>
+                    <div class="h-9 w-9 bg-nuriDark rounded-full flex items-center justify-center text-nuriGold font-bold shadow-sm border border-nuriForest">
                         {{ Auth::user() ? strtoupper(substr(Auth::user()->name, 0, 1)) : 'K' }}
                     </div>
                 </div>
@@ -84,13 +102,24 @@
                     </div>
                 @endif
 
+                <div class="mb-4">
+                    <input
+                        type="text"
+                        id="orderSearch"
+                        placeholder="Cari pesanan..."
+                        class="mt-2 w-full border border-stone-300 rounded-lg px-4 py-2 focus:border-nuriArmy focus:ring-nuriArmy"
+                    >
+                </div>
+
                 <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-stone-200/60 border-t-4 border-t-nuriForest">
                     <div class="px-6 py-5 border-b border-stone-100 bg-stone-50/50">
                         <h3 class="text-lg font-bold text-nuriDark" style="font-family: serif;">Daftar Pesanan</h3>
                         <p class="text-xs text-stone-500 mt-0.5">Menampilkan seluruh rekaman pesanan pelanggan yang masuk sistem.</p>
+                    
                     </div>
 
                     <div class="overflow-x-auto">
+
                         <table class="min-w-full divide-y divide-stone-100">
                             <thead class="bg-stone-50">
                                 <tr>
@@ -106,7 +135,13 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-stone-100">
                                 @forelse($orders as $order)
-                                    <tr class="hover:bg-stone-50/60 transition duration-150">
+                                    <tr
+                                        class="order-row hover:bg-stone-50/60 transition duration-150"
+                                        data-order="ord-{{ $order->id }}"
+                                        data-meja="meja {{ $order->meja->nomor_meja ?? '' }}"
+                                        data-kasir="{{ strtolower($order->kasir->name ?? '') }}"
+                                        data-status="{{ strtolower($order->status_pesanan) }}"
+                                    >
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-stone-400">
                                             {{ $loop->iteration }}
                                         </td>
@@ -199,6 +234,16 @@
                                         </td>
                                     </tr>
                                 @endforelse
+                                <tr id="noOrderFound" style="display:none;">
+                                    <td colspan="8" class="px-6 py-16 text-center text-stone-400">
+                                        <div class="text-base font-medium mb-1">
+                                            Pesanan tidak ditemukan
+                                        </div>
+                                        <p class="text-xs text-stone-400">
+                                            Coba gunakan kata kunci lain.
+                                        </p>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -206,5 +251,43 @@
             </div>
         </main>
     </div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('orderSearch');
+        const rows = document.querySelectorAll('.order-row');
+        const noOrderFound = document.getElementById('noOrderFound');
+
+        searchInput.addEventListener('input', function () {
+            const keyword = this.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const order = row.dataset.order;
+                const meja = row.dataset.meja;
+                const kasir = row.dataset.kasir;
+                const status = row.dataset.status;
+
+                const match =
+                    order.includes(keyword) ||
+                    meja.includes(keyword) ||
+                    kasir.includes(keyword) ||
+                    status.includes(keyword);
+
+                if (match) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            noOrderFound.style.display =
+                visibleCount === 0 ? 'table-row' : 'none';
+        });
+    });
+</script>
+
 </body>
 </html>
