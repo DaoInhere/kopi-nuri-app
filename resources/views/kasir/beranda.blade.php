@@ -3,84 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dasbor Kasir - Kopi Nuri</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>Dashboard Kasir - KopiNuri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nuriDark: '#0A1603',    /* Warna background ekstra gelap sidebar */
+                        nuriCream: '#F5F2EC',   /* Warna krem lembut background utama */
+                        nuriGold: '#D8A44C',    /* Warna emas logo KopiNuri */
+                        nuriArmy: '#547548',    /* Warna hijau army utama */
+                        nuriForest: '#1D2A15'   /* Warna hijau botol pekat untuk pembatas/hover */
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-gray-100 font-sans antialiased text-gray-900">
-    <div class="min-h-screen flex">
-        
-        <aside class="w-64 bg-slate-900 text-white flex flex-col shadow-lg">
-            <div class="h-16 flex items-center justify-center border-b border-slate-700">
-                <h1 class="text-2xl font-bold tracking-wider text-amber-500">KOPI NURI</h1>
-            </div>
-            <nav class="flex-1 px-4 py-6 space-y-3">
-                <a href="{{ route('kasir.beranda') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Beranda</a>
-                <a href="{{ route('kasir.pesanan.create') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Buat Pesanan</a>
-                <a href="{{ route('kasir.menu') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Daftar Menu</a>
-                <a href="{{ route('kasir.riwayat.pesanan') }}" class="block px-4 py-2 hover:bg-slate-800 rounded-lg transition">Riwayat Transaksi</a>
-            </nav>
-            <div class="p-4 border-t border-slate-700">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left px-4 py-2 text-red-400 hover:bg-slate-800 rounded-lg transition">
-                        Logout
-                    </button>
-                </form>
-            </div>
-        </aside>
 
-        <main class="flex-1 flex flex-col">
-            
-            <header class="h-16 bg-white shadow-sm flex items-center justify-between px-8">
-                <h2 class="text-xl font-semibold text-gray-700">Dasbor Kasir</h2>
-                <div class="flex items-center space-x-4">
-                    <span class="text-sm font-medium text-gray-500">Halo, {{ Auth::user()->name }}</span>
-                    <div class="h-8 w-8 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold">
-                        K
+<body class="bg-nuriCream font-sans antialiased text-stone-900">
+
+<div class="min-h-screen flex">
+
+    <aside class="w-64 bg-nuriDark text-stone-300 flex flex-col shadow-xl border-r border-nuriForest">
+
+        <div class="h-20 flex items-center px-6 border-b border-nuriForest">
+            <h1 class="text-2xl font-bold tracking-wide text-nuriGold" style="font-family: serif;">
+                Kopi<span class="text-white">Nuri</span>
+            </h1>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-2">
+
+            <a href="{{ route('kasir.beranda') }}"
+                class="block px-4 py-2.5 bg-nuriArmy text-white font-medium rounded-lg transition duration-200 shadow-sm">
+                Dashboard
+            </a>
+
+            <a href="{{ route('kasir.pesanan.create') }}"
+                class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
+                Buat Pesanan
+            </a>
+
+            <a href="{{ route('kasir.menu') }}"
+                class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
+                Daftar Menu
+            </a>
+
+            <a href="{{ route('kasir.riwayat.pesanan') }}"
+                class="block px-4 py-2.5 rounded-lg hover:bg-nuriForest hover:text-white transition duration-200">
+                Riwayat Transaksi
+            </a>
+
+        </nav>
+
+        <div class="p-4 border-t border-nuriForest">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button
+                    type="submit"
+                    class="w-full py-2.5 rounded-lg bg-[#8B2D2D] hover:bg-[#742222] text-white text-sm transition duration-200 font-semibold text-center shadow-sm">
+                    Logout
+                </button>
+            </form>
+        </div>
+
+    </aside>
+
+    <main class="flex-1 flex flex-col">
+
+        <header class="h-20 flex items-center justify-between px-8 border-b border-stone-200/60 bg-transparent">
+
+            <div>
+                <h2 class="text-2xl font-bold text-stone-900" style="font-family: serif;">
+                    Selamat Datang, <span class="text-nuriArmy">{{ Auth::user()->name }}</span>
+                </h2>
+                <p class="text-xs text-stone-500 mt-0.5">
+                    Dashboard Kasir KopiNuri / Ringkasan Operasional Hari Ini
+                </p>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="text-right">
+                    <p class="text-sm font-bold text-stone-900">
+                        {{ Auth::user()->name }}
+                    </p>
+                    <p class="text-xs text-stone-400">
+                        Kasir Aktif
+                    </p>
+                </div>
+                <div class="h-9 w-9 bg-nuriDark rounded-full flex items-center justify-center text-nuriGold font-bold shadow-sm border border-nuriForest">
+                    {{ Auth::user() ? strtoupper(substr(Auth::user()->name, 0, 1)) : 'K' }}
+                </div>
+            </div>
+
+        </header>
+
+        <div class="p-8 flex-1 overflow-y-auto">
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+                <div class="bg-gradient-to-br from-nuriArmy to-[#3e5933] rounded-2xl p-6 text-white shadow-sm border border-[#446039]">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-green-100/80 mb-1">
+                                Pesanan Hari Ini
+                            </h4>
+                            <h3 class="text-4xl font-black tracking-tight">
+                                {{ $orderHariIni }}
+                            </h3>
+                            <p class="mt-2 text-xs text-green-100/60 font-medium">
+                                Transaksi berhasil tercatat
+                            </p>
+                        </div>
+                        <span class="px-2 py-0.5 bg-white/10 text-[10px] uppercase font-bold rounded-md tracking-wider">
+                            Live
+                        </span>
                     </div>
                 </div>
-            </header>
 
-            <div class="p-8 flex-1 overflow-y-auto">
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
-                        <p class="text-sm text-gray-500 font-medium mb-1">Total Pesanan Hari Ini</p>
-                        <p class="text-3xl font-bold text-gray-800">{{ $orderHariIni }} <span class="text-sm font-normal text-gray-500">transaksi</span></p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
-                        <p class="text-sm text-gray-500 font-medium mb-1">Meja Kosong</p>
-                        <p class="text-3xl font-bold text-gray-800">{{ $mejaKosong }}</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-sm border-l-4 border-red-500">
-                        <p class="text-sm text-gray-500 font-medium mb-1">Meja Digunakan</p>
-                        <p class="text-3xl font-bold text-gray-800">{{ $mejaDigunakan }}</p>
+                <div class="bg-white rounded-2xl p-6 text-stone-800 shadow-sm border border-stone-200/60 border-t-4 border-t-emerald-600">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 mb-1">
+                                Meja Kosong
+                            </h4>
+                            <h3 class="text-4xl font-black tracking-tight text-emerald-700">
+                                {{ $mejaKosong }}
+                            </h3>
+                            <p class="mt-2 text-xs text-stone-400 font-medium">
+                                Siap menerima pelanggan baru
+                            </p>
+                        </div>
+                        <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-100 text-[10px] uppercase font-bold rounded-md tracking-wider">
+                            Tersedia
+                        </span>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-gray-800">Status Meja Pelanggan</h3>
-                        <span class="text-sm text-gray-500">Klik meja untuk kelola pesanan</span>
+                <div class="bg-white rounded-2xl p-6 text-stone-800 shadow-sm border border-stone-200/60 border-t-4 border-t-amber-600">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400 mb-1">
+                                Meja Digunakan
+                            </h4>
+                            <h3 class="text-4xl font-black tracking-tight text-amber-700">
+                                {{ $mejaDigunakan }}
+                            </h3>
+                            <p class="mt-2 text-xs text-stone-400 font-medium">
+                                Sedang dalam pelayanan kuliner
+                            </p>
+                        </div>
+                        <span class="px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-100 text-[10px] uppercase font-bold rounded-md tracking-wider">
+                            Terisi
+                        </span>
                     </div>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        @forelse($mejas as $meja)
-                            <button class="py-6 rounded-xl border-2 flex flex-col items-center justify-center transition-all hover:scale-105 hover:shadow-md
-                                {{ $meja->status == 'kosong' ? 'border-green-400 bg-green-50 text-green-700' : 'border-red-400 bg-red-50 text-red-700' }}">
-                                <span class="text-3xl font-black mb-2">{{ $meja->nomor_meja }}</span>
-                                <span class="text-xs uppercase tracking-widest font-bold">{{ $meja->status }}</span>
-                            </button>
-                        @empty
-                            <div class="col-span-full text-center py-12 text-gray-400">
-                                Belum ada meja yang terdaftar di sistem.
+                </div>
+
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-stone-200/60 border-t-4 border-t-nuriDark">
+
+                <div class="flex justify-between items-start border-b border-stone-100 pb-5 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-stone-900" style="font-family: serif;">Status Meja Pelanggan</h3>
+                        <p class="text-xs text-stone-500 mt-0.5">
+                            Klik kartu meja di bawah ini untuk langsung memproses dan mengelola pesanan pelanggan.
+                        </p>
+                    </div>
+                    <div class="bg-amber-50 text-amber-800 border border-amber-200 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+                        Live Monitor
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+
+                    @forelse($mejas as $meja)
+
+                        <button
+                            class="group rounded-2xl border p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-md text-center flex flex-col items-center justify-center
+                            {{ $meja->status == 'kosong'
+                                ? 'bg-emerald-50/40 border-emerald-200 hover:bg-emerald-50'
+                                : 'bg-rose-50/40 border-rose-200 hover:bg-rose-50' }}">
+
+                            <div class="w-12 h-12 rounded-full shadow-sm flex items-center justify-center mb-3 font-bold text-lg bg-white transition duration-200 group-hover:scale-105
+                                {{ $meja->status == 'kosong' ? 'text-emerald-700 border border-emerald-100' : 'text-rose-700 border border-rose-100' }}">
+                                {{ $meja->nomor_meja }}
                             </div>
-                        @endforelse
-                    </div>
+
+                            <div class="text-sm font-bold text-stone-800">
+                                Meja {{ $meja->nomor_meja }}
+                            </div>
+
+                            <span class="mt-2.5 px-3 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-bold shadow-sm
+                                {{ $meja->status == 'kosong'
+                                    ? 'bg-emerald-600 text-white'
+                                    : 'bg-rose-600 text-white' }}">
+                                {{ $meja->status }}
+                            </span>
+
+                        </button>
+
+                    @empty
+
+                        <div class="col-span-full text-center py-12 text-stone-400">
+                            <div class="text-base font-medium mb-1">Status Meja Kosong</div>
+                            <p class="text-xs text-stone-400">Belum ada meja yang dikonfigurasi di dalam sistem ini.</p>
+                        </div>
+
+                    @endforelse
+
                 </div>
 
             </div>
-        </main>
-    </div>
+
+        </div>
+
+    </main>
+
+</div>
+
 </body>
 </html>
